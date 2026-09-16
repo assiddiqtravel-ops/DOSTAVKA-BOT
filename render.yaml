@@ -1,0 +1,22 @@
+# Render.com Blueprint — Elif Fast Food (bepul reja)
+services:
+  - type: web
+    name: elif-fast-food
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: MINI_APP_URL
+        sync: false
