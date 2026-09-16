@@ -7,6 +7,7 @@ const config = {
   botToken: process.env.BOT_TOKEN,
   databaseUrl: process.env.DATABASE_URL,
   miniAppUrl: process.env.MINI_APP_URL || '',
+  courierGroupId: process.env.COURIER_GROUP_ID || '',
   env: process.env.NODE_ENV || 'development',
 };
 

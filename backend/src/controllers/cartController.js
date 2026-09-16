@@ -4,7 +4,7 @@ import {
   getOrdersByUser,
 } from '../models/Order.js';
 import { findOrCreateUser, getUserByTelegramId } from '../models/User.js';
-import { sendOrderConfirmation } from './botController.js';
+import { sendOrderConfirmation, notifyCouriers } from './botController.js';
 
 // GET /api/products
 export const listProducts = async (req, res) => {
@@ -46,6 +46,9 @@ export const placeOrder = async (req, res) => {
 
     // Botga xabar (mijozga)
     sendOrderConfirmation(tgUser.id);
+
+    // Kuryerlar guruhiga yuborish
+    notifyCouriers(order);
 
     res.json({ ok: true, orderId: order.id });
   } catch (e) {

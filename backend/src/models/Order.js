@@ -30,3 +30,12 @@ export const updateOrderStatus = (id, status) =>
     where: { id: Number(id) },
     data: { status },
   });
+
+export const getOrderById = (id) =>
+  prisma.order.findUnique({ where: { id: Number(id) } });
+
+export const setOrderCourier = (id, courier) =>
+  prisma.order.update({
+    where: { id: Number(id) },
+    data: { courier },
+  });

@@ -79,6 +79,7 @@ export default function Orders() {
                 <th>Buyurtma</th>
                 <th>Manzil</th>
                 <th>Jami</th>
+                <th>Kuryer</th>
                 <th>Sana</th>
                 <th>Holati</th>
                 <th></th>
@@ -97,6 +98,7 @@ export default function Orders() {
                     </td>
                     <td>{renderLocation(o.location)}</td>
                     <td className="price-new">{formatPrice(o.total)}</td>
+                    <td>{o.courier || '—'}</td>
                     <td style={{ whiteSpace: 'nowrap' }}>
                       {formatDate(o.createdAt)}
                     </td>

@@ -1,5 +1,22 @@
 import bot from '../core/bot.js';
 import config from '../config/default.js';
+import { getOrderById, setOrderCourier } from '../models/Order.js';
+
+// Manzil matni va GPS havolasini ajratib olish
+const parseLocation = (loc = '') => {
+  const urlMatch = loc.match(/https?:\/\/\S+/);
+  const address = loc
+    .replace(/https?:\/\/\S+/, '')
+    .replace(/\|/g, '')
+    .trim();
+  return { address, mapUrl: urlMatch ? urlMatch[0] : '' };
+};
+
+const fmt = (n) => Number(n || 0).toLocaleString('ru-RU').replace(/,/g, ' ');
+
+const courierName = (from) =>
+  [from.first_name, from.last_name].filter(Boolean).join(' ') +
+  (from.username ? ` (@${from.username})` : '');
 
 // /start komandasi
 export const handleStart = async (msg) => {
@@ -57,4 +74,100 @@ export const sendOrderConfirmation = (telegramId) => {
       "Buyurtmangiz muvaffaqiyatli qabul qilindi! Kuryerimiz tez orada bog'lanadi 🍔",
     )
     .catch((e) => console.log('Xabar yuborishda xato:', e.message));
+};
+
+// Yangi buyurtmani kuryerlar guruhiga yuborish
+export const notifyCouriers = (order) => {
+  if (!config.courierGroupId) return;
+
+  const items = Array.isArray(order.items) ? order.items : [];
+  const itemsText = items.map((i) => `• ${i.name} x${i.qty}`).join('\n');
+  const { address, mapUrl } = parseLocation(order.location || '');
+
+  let text = `🆕 <b>Yangi buyurtma #${order.id}</b>\n\n`;
+  text += `${itemsText}\n\n`;
+  text += `💰 Jami: <b>${fmt(order.total)} so'm</b>\n`;
+  text += `📞 ${order.phone || '—'}`;
+  if (address) text += `\n📍 ${address}`;
+
+  const keyboard = [];
+  if (mapUrl) keyboard.push([{ text: '🗺 Xaritada ochish', url: mapUrl }]);
+  keyboard.push([{ text: '✅ Men olaman', callback_data: `take_${order.id}` }]);
+
+  bot
+    .sendMessage(config.courierGroupId, text, {
+      parse_mode: 'HTML',
+      reply_markup: { inline_keyboard: keyboard },
+    })
+    .catch((e) => console.log('Kuryer guruhiga yuborishda xato:', e.message));
+};
+
+// "Men olaman" tugmasi bosilganda
+export const handleCallback = async (query) => {
+  try {
+    const data = query.data || '';
+    if (!data.startsWith('take_')) return;
+
+    const orderId = Number(data.slice(5));
+    const name = courierName(query.from);
+    const order = await getOrderById(orderId);
+
+    if (!order) {
+      return bot.answerCallbackQuery(query.id, {
+        text: 'Buyurtma topilmadi',
+        show_alert: true,
+      });
+    }
+    if (order.courier) {
+      return bot.answerCallbackQuery(query.id, {
+        text: `Bu buyurtmani allaqachon ${order.courier} oldi`,
+        show_alert: true,
+      });
+    }
+
+    await setOrderCourier(orderId, name);
+
+    // Guruhdagi xabarni yangilaymiz: kim olganini yozamiz, tugmani olib tashlaymiz
+    const { mapUrl } = parseLocation(order.location || '');
+    const newText =
+      (query.message.text || `Buyurtma #${orderId}`) +
+      `\n\n✅ Qabul qildi: ${name}`;
+    const kb = mapUrl
+      ? { inline_keyboard: [[{ text: '🗺 Xaritada ochish', url: mapUrl }]] }
+      : { inline_keyboard: [] };
+
+    bot
+      .editMessageText(newText, {
+        chat_id: query.message.chat.id,
+        message_id: query.message.message_id,
+        reply_markup: kb,
+      })
+      .catch(() => {});
+
+    bot.answerCallbackQuery(query.id, { text: 'Siz bu buyurtmani oldingiz ✅' });
+  } catch (e) {
+    console.log('Callback xato:', e.message);
+  }
+};
+
+// Chat ID'ni aniqlash uchun (/id komandasi va guruhga qo'shilganda)
+export const handleChatId = (msg) => {
+  bot
+    .sendMessage(msg.chat.id, `Bu chat ID: <code>${msg.chat.id}</code>`, {
+      parse_mode: 'HTML',
+    })
+    .catch(() => {});
+};
+
+export const handleAddedToGroup = (msg) => {
+  const added = msg.new_chat_members || [];
+  if (added.some((m) => m.is_bot)) {
+    bot
+      .sendMessage(
+        msg.chat.id,
+        `✅ Bot guruhga qo'shildi!\nBu guruh ID: <code>${msg.chat.id}</code>\n\nShu ID'ni Render'da COURIER_GROUP_ID ga qo'ying.`,
+        { parse_mode: 'HTML' },
+      )
+      .catch(() => {});
+  }
 };
