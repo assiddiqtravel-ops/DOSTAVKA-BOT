@@ -1,4 +1,5 @@
 import { formatPrice } from '../utils.js';
+import Icon from './Icon.jsx';
 
 export default function ProductSheet({ product, onClose, onAdd }) {
   if (!product) return null;
@@ -12,7 +13,7 @@ export default function ProductSheet({ product, onClose, onAdd }) {
     <div className="overlay" onClick={onClose}>
       <div className="sheet" onClick={(e) => e.stopPropagation()}>
         <div className="sheet-close" onClick={onClose}>
-          ✕
+          <Icon name="x" size={18} strokeWidth={2.4} />
         </div>
         <img className="sheet-img" src={product.image} alt={product.name} />
         <div className="sheet-body">

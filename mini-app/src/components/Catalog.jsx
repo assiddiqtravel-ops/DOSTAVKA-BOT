@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import ProductCard from './ProductCard.jsx';
+import Icon from './Icon.jsx';
 
 export default function Catalog({
   products,
@@ -26,7 +27,9 @@ export default function Catalog({
     <div className="page">
       <div className="topbar">
         <div className="search">
-          <span className="ico">🔍</span>
+          <span className="ico">
+            <Icon name="search" size={19} />
+          </span>
           <input
             placeholder="Taom qidirish..."
             value={q}
@@ -55,7 +58,9 @@ export default function Catalog({
         </div>
       ) : filtered.length === 0 ? (
         <div className="empty">
-          <div className="empty-emoji">🔍</div>
+          <div className="empty-emoji">
+            <Icon name="search" size={58} strokeWidth={1.6} />
+          </div>
           Hech narsa topilmadi
         </div>
       ) : (

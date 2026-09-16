@@ -1,10 +1,11 @@
 import { getUser } from '../telegram.js';
 import ProductCard from './ProductCard.jsx';
+import Icon from './Icon.jsx';
 
 const promos = [
-  { c: 'p1', t: 'Tez yetkazib berish', s: 'Issiqqina taomlar 30 daqiqada', e: '🛵' },
-  { c: 'p2', t: 'Eng mazali burgerlar', s: 'Yangi pishirilgan', e: '🍔' },
-  { c: 'p3', t: 'Shirin desertlar', s: 'Trayfl va chizkeyk', e: '🍰' },
+  { c: 'p1', t: 'Tez yetkazib berish', s: 'Issiqqina taomlar 30 daqiqada', icon: 'bike' },
+  { c: 'p2', t: 'Eng mazali burgerlar', s: 'Yangi pishirilgan', icon: 'burger' },
+  { c: 'p3', t: 'Shirin desertlar', s: 'Trayfl va chizkeyk', icon: 'cake' },
 ];
 
 export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
@@ -20,13 +21,20 @@ export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
           <div>
             <div className="loc-label">Yetkazib berish manzili</div>
             <div className="loc-val">
-              <span className="pin">📍</span> Angren shahar
+              <span className="pin">
+                <Icon name="pin" size={18} />
+              </span>
+              Angren shahar
             </div>
           </div>
-          <div className="avatar">👋</div>
+          <div className="avatar">
+            <Icon name="smile" size={22} />
+          </div>
         </div>
         <div className="search" onClick={() => goCatalog('Barchasi')}>
-          <span className="ico">🔍</span>
+          <span className="ico">
+            <Icon name="search" size={19} />
+          </span>
           <input readOnly placeholder="Taom qidirish..." />
         </div>
       </div>
@@ -37,7 +45,9 @@ export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
           <div key={i} className={`promo ${p.c}`}>
             <h3>{p.t}</h3>
             <p>{p.s}</p>
-            <div className="emoji">{p.e}</div>
+            <div className="emoji">
+              <Icon name={p.icon} size={94} strokeWidth={1.6} />
+            </div>
           </div>
         ))}
       </div>
@@ -60,7 +70,10 @@ export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
       ) : (
         <>
           <div className="sec">
-            <h2>🔥 Mashhur</h2>
+            <h2>
+              <Icon name="flame" size={20} className="sec-ico" style={{ color: 'var(--brand)' }} />
+              Mashhur
+            </h2>
             <a onClick={() => goCatalog('Barchasi')}>Barchasi</a>
           </div>
           <div className="hrail">
@@ -72,7 +85,10 @@ export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
           {discounted.length > 0 && (
             <>
               <div className="sec">
-                <h2>🏷 Chegirmalar</h2>
+                <h2>
+                  <Icon name="tag" size={20} className="sec-ico" style={{ color: 'var(--brand)' }} />
+                  Chegirmalar
+                </h2>
               </div>
               <div className="hrail">
                 {discounted.map((p) => (

@@ -1,18 +1,19 @@
 import { useState } from 'react';
+import Icon from './Icon.jsx';
 
 const slides = [
   {
-    emoji: '🍔',
+    icon: 'burger',
     title: 'Sizni ochlik qiynayaptimi?',
     text: "Biz issiqqina taomlarni tezkor yetkazamiz.",
   },
   {
-    emoji: '🛵',
+    icon: 'bike',
     title: 'Bu qanday ishlaydi?',
     text: 'Tanlang, buyurtma bering va rohatlaning.',
   },
   {
-    emoji: '🎉',
+    icon: 'sparkles',
     title: "10 000+ odam",
     text: 'Allaqachon biz bilan birga.',
   },
@@ -27,7 +28,9 @@ export default function Onboarding({ onFinish }) {
   return (
     <div className="onboarding">
       <div className="ob-slide" key={i}>
-        <div className="ob-art">{slides[i].emoji}</div>
+        <div className="ob-art">
+          <Icon name={slides[i].icon} size={82} strokeWidth={1.6} />
+        </div>
         <div className="ob-title">{slides[i].title}</div>
         <div className="ob-text">{slides[i].text}</div>
       </div>
