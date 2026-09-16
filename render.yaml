@@ -1,11 +1,12 @@
-# Render.com Blueprint — Elif Fast Food (bepul reja)
+# Render.com Blueprint — FAQAT BACKEND (API + Bot). Frontend Vercel'да.
 services:
   - type: web
-    name: elif-fast-food
+    name: elif-backend
     runtime: node
     plan: free
     region: frankfurt
-    buildCommand: npm run build
+    rootDir: backend
+    buildCommand: npm install --include=dev && npx prisma generate
     startCommand: npm start
     healthCheckPath: /health
     autoDeploy: true
