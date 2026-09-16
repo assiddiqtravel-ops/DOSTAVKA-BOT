@@ -146,7 +146,55 @@ const PATHS = {
   ),
 };
 
-export default function Icon({ name, size = 24, strokeWidth = 2, style, className }) {
+// To'ldirilgan (solid) variant — Yandex Dostavka uslubidagi qalin, yumaloq ikonkalar.
+// Asosan pastki navigatsiyaning faol holati uchun ishlatiladi.
+const FILLED = {
+  home: (
+    <path d="M11.3 2.4a1 1 0 0 1 1.4 0l8.5 7.7A1.6 1.6 0 0 1 20.1 13H20v6.5a2 2 0 0 1-2 2h-3v-5.3a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5.3H6a2 2 0 0 1-2-2V13h-.1a1.6 1.6 0 0 1-1.1-2.9z" />
+  ),
+  search: (
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M10.5 2a8.5 8.5 0 1 0 5.1 15.3l4 4a1.6 1.6 0 0 0 2.3-2.3l-4-4A8.5 8.5 0 0 0 10.5 2m0 3.4a5.1 5.1 0 1 1 0 10.2 5.1 5.1 0 0 1 0-10.2"
+    />
+  ),
+  bag: (
+    <path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2a5 5 0 0 0-5 5H4.6a2 2 0 0 0-2 1.85l-.9 11.5A2 2 0 0 0 3.7 22.5h16.6a2 2 0 0 0 2-2.15l-.9-11.5A2 2 0 0 0 19.4 7H17a5 5 0 0 0-5-5m3 5a3 3 0 0 0-6 0z"
+    />
+  ),
+  user: (
+    <path d="M12 2.5a5 5 0 1 0 0 10 5 5 0 0 0 0-10M4 20.5c0-3.6 3.6-6 8-6s8 2.4 8 6a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 20.5" />
+  ),
+};
+
+export default function Icon({
+  name,
+  size = 24,
+  strokeWidth = 2,
+  variant = 'line',
+  style,
+  className,
+}) {
+  if (variant === 'fill' && FILLED[name]) {
+    return (
+      <svg
+        className={className}
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        style={style}
+        aria-hidden="true"
+      >
+        {FILLED[name]}
+      </svg>
+    );
+  }
+
   const content = PATHS[name];
   if (!content) return null;
   return (

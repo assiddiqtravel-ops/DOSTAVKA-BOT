@@ -971,14 +971,12 @@ a {
 }
 .nav-item.active {
   color: var(--brand);
-  background: var(--nav-active-bg);
 }
 .nav-icon {
-  font-size: 22px;
   transition: transform 0.15s;
 }
 .nav-item.active .nav-icon {
-  transform: translateY(-1px) scale(1.05);
+  transform: translateY(-1px);
 }
 .nav-badge {
   position: absolute;

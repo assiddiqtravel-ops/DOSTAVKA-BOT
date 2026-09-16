@@ -17,7 +17,12 @@ export default function BottomNav({ tab, setTab, cartCount }) {
           onClick={() => setTab(it.key)}
         >
           <span className="nav-icon">
-            <Icon name={it.icon} size={23} strokeWidth={tab === it.key ? 2.3 : 2} />
+            <Icon
+              name={it.icon}
+              size={25}
+              variant={tab === it.key ? 'fill' : 'line'}
+              strokeWidth={2.2}
+            />
           </span>
           {it.key === 'cart' && cartCount > 0 && (
             <span className="nav-badge">{cartCount}</span>
