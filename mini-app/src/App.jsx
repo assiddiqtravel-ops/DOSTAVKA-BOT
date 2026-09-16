@@ -19,6 +19,12 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
   const [activeProduct, setActiveProduct] = useState(null);
+  const [catalogCat, setCatalogCat] = useState('Barchasi');
+
+  const goCatalog = (cat) => {
+    if (cat) setCatalogCat(cat);
+    setTab('catalog');
+  };
 
   useEffect(() => {
     initTelegram();
@@ -84,13 +90,23 @@ export default function App() {
 
   return (
     <div className="app">
-      {tab === 'home' && <Home onOrder={() => setTab('catalog')} />}
+      {tab === 'home' && (
+        <Home
+          products={products}
+          loading={loading}
+          onOpen={setActiveProduct}
+          onAdd={addToCart}
+          goCatalog={goCatalog}
+        />
+      )}
       {tab === 'catalog' && (
         <Catalog
           products={products}
           loading={loading}
           onOpen={setActiveProduct}
           onAdd={addToCart}
+          activeCat={catalogCat}
+          setActiveCat={setCatalogCat}
         />
       )}
       {tab === 'cart' && (

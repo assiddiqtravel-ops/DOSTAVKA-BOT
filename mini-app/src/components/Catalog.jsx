@@ -1,31 +1,46 @@
 import { useMemo, useState } from 'react';
 import ProductCard from './ProductCard.jsx';
 
-export default function Catalog({ products, loading, onOpen, onAdd }) {
-  const [active, setActive] = useState('Barchasi');
+export default function Catalog({
+  products,
+  loading,
+  onOpen,
+  onAdd,
+  activeCat,
+  setActiveCat,
+}) {
+  const [q, setQ] = useState('');
 
-  const categories = useMemo(() => {
-    const set = new Set(products.map((p) => p.category).filter(Boolean));
-    return ['Barchasi', ...set];
-  }, [products]);
+  const categories = useMemo(
+    () => ['Barchasi', ...new Set(products.map((p) => p.category).filter(Boolean))],
+    [products],
+  );
 
-  const filtered =
-    active === 'Barchasi'
-      ? products
-      : products.filter((p) => p.category === active);
+  const filtered = products.filter((p) => {
+    const catOk = activeCat === 'Barchasi' || p.category === activeCat;
+    const qOk = !q || p.name.toLowerCase().includes(q.toLowerCase());
+    return catOk && qOk;
+  });
 
   return (
     <div className="page">
-      <div className="section-title" style={{ marginTop: 0 }}>
-        Katalog
+      <div className="topbar">
+        <div className="search">
+          <span className="ico">🔍</span>
+          <input
+            placeholder="Taom qidirish..."
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
+        </div>
       </div>
 
-      <div className="cats">
+      <div className="cats sticky">
         {categories.map((c) => (
           <div
             key={c}
-            className={`cat ${active === c ? 'active' : ''}`}
-            onClick={() => setActive(c)}
+            className={`chip ${activeCat === c ? 'active' : ''}`}
+            onClick={() => setActiveCat(c)}
           >
             {c}
           </div>
@@ -33,11 +48,15 @@ export default function Catalog({ products, loading, onOpen, onAdd }) {
       </div>
 
       {loading ? (
-        <div className="loader">Yuklanmoqda...</div>
+        <div className="skel-grid">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div className="skel" key={i} />
+          ))}
+        </div>
       ) : filtered.length === 0 ? (
         <div className="empty">
-          <div className="empty-emoji">🍕</div>
-          Bu kategoriyada mahsulot yo'q
+          <div className="empty-emoji">🔍</div>
+          Hech narsa topilmadi
         </div>
       ) : (
         <div className="grid">

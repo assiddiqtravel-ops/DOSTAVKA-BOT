@@ -28,58 +28,66 @@ export default function Profile({ onReorder }) {
     <div className="page">
       <div className="profile-head">
         <div className="profile-avatar">👤</div>
-        <div className="username">{user.first_name}</div>
+        <div className="profile-name">{user.first_name}</div>
         {user.username && (
-          <div className="hello">@{user.username}</div>
+          <div style={{ color: 'var(--text-2)', fontSize: 14, marginTop: 2 }}>
+            @{user.username}
+          </div>
         )}
       </div>
 
-      <div className="section-title" style={{ marginTop: 0 }}>
-        📜 Mening buyurtmalarim
-      </div>
+      <div className="pad">
+        <div className="sec-label">📜 Mening buyurtmalarim</div>
 
-      {loading ? (
-        <div className="loader">Yuklanmoqda...</div>
-      ) : orders.length === 0 ? (
-        <div className="empty">
-          <div className="empty-emoji">📭</div>
-          Hozircha buyurtmalar yo'q
-        </div>
-      ) : (
-        orders.map((o) => {
-          const items = Array.isArray(o.items) ? o.items : [];
-          return (
-            <div className="order-card" key={o.id}>
-              <div className="order-top">
-                <b>#{o.id}</b>
-                <span
-                  className={`badge ${
-                    o.status === 'yetkazildi' ? 'done' : 'pending'
-                  }`}
+        {loading ? (
+          <div className="loader">Yuklanmoqda...</div>
+        ) : orders.length === 0 ? (
+          <div className="empty">
+            <div className="empty-emoji">📭</div>
+            Hozircha buyurtmalar yo'q
+          </div>
+        ) : (
+          orders.map((o) => {
+            const items = Array.isArray(o.items) ? o.items : [];
+            return (
+              <div className="order-card" key={o.id}>
+                <div className="order-top">
+                  <b>Buyurtma #{o.id}</b>
+                  <span
+                    className={`badge ${
+                      o.status === 'yetkazildi' ? 'done' : 'pending'
+                    }`}
+                  >
+                    {o.status}
+                  </span>
+                </div>
+                <div className="order-items">
+                  {items.map((i) => `${i.name} x${i.qty}`).join(', ')}
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
                 >
-                  {o.status}
-                </span>
+                  <span style={{ color: 'var(--text-2)', fontSize: 12 }}>
+                    {fmtDate(o.createdAt)}
+                  </span>
+                  <b className="price-new">{formatPrice(o.total)}</b>
+                </div>
+                <button
+                  className="btn btn-ghost"
+                  style={{ marginTop: 12, padding: 11, fontSize: 14 }}
+                  onClick={() => onReorder(items)}
+                >
+                  🔁 Yana shundan buyurtma qilish
+                </button>
               </div>
-              <div className="order-items">
-                {items.map((i) => `${i.name} x${i.qty}`).join(', ')}
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ color: 'var(--text-light)', fontSize: 12 }}>
-                  {fmtDate(o.createdAt)}
-                </span>
-                <b className="price-new">{formatPrice(o.total)}</b>
-              </div>
-              <button
-                className="btn btn-ghost"
-                style={{ marginTop: 12, padding: 10, fontSize: 14 }}
-                onClick={() => onReorder(items)}
-              >
-                🔁 Yana shundan buyurtma qilish
-              </button>
-            </div>
-          );
-        })
-      )}
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }

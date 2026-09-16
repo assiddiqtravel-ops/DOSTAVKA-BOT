@@ -27,7 +27,7 @@ export default function Onboarding({ onFinish }) {
   return (
     <div className="onboarding">
       <div className="ob-slide" key={i}>
-        <div className="ob-emoji">{slides[i].emoji}</div>
+        <div className="ob-art">{slides[i].emoji}</div>
         <div className="ob-title">{slides[i].title}</div>
         <div className="ob-text">{slides[i].text}</div>
       </div>

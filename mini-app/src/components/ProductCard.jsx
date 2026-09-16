@@ -1,20 +1,31 @@
-import { formatPrice } from '../utils.js';
+import { formatPrice, discountPct } from '../utils.js';
 
 export default function ProductCard({ product, onOpen, onAdd }) {
+  const off = discountPct(product.oldPrice, product.newPrice);
+
   return (
     <div className="card" onClick={() => onOpen(product)}>
-      <img className="card-img" src={product.image} alt={product.name} />
-      <button
-        className="add-btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          onAdd(product);
-        }}
-      >
-        +
-      </button>
+      <div className="card-imgwrap">
+        <img
+          className="card-img"
+          src={product.image}
+          alt={product.name}
+          loading="lazy"
+        />
+        {off > 0 && <div className="badge-off">−{off}%</div>}
+        <button
+          className="add-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAdd(product);
+          }}
+        >
+          +
+        </button>
+      </div>
       <div className="card-body">
         <div className="card-name">{product.name}</div>
+        <div className="card-desc">{product.description}</div>
         <div className="price-row">
           <span className="price-new">{formatPrice(product.newPrice)}</span>
           {product.oldPrice ? (

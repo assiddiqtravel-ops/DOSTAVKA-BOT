@@ -11,14 +11,15 @@ export default function ProductSheet({ product, onClose, onAdd }) {
   return (
     <div className="overlay" onClick={onClose}>
       <div className="sheet" onClick={(e) => e.stopPropagation()}>
+        <div className="sheet-close" onClick={onClose}>
+          ✕
+        </div>
         <img className="sheet-img" src={product.image} alt={product.name} />
         <div className="sheet-body">
           <div className="sheet-name">{product.name}</div>
-          <div className="sheet-cat">{product.category}</div>
+          <span className="sheet-cat">{product.category}</span>
 
-          <div className="section-title" style={{ margin: '18px 0 4px' }}>
-            Tarkibi
-          </div>
+          <div className="sheet-sub">Tarkibi</div>
           <ul className="ingredients">
             {ingredients.map((ing, i) => (
               <li key={i}>{ing}</li>
@@ -33,7 +34,7 @@ export default function ProductSheet({ product, onClose, onAdd }) {
                 onClose();
               }}
             >
-              Savatchaga qo'shish — {formatPrice(product.newPrice)}
+              Savatchaga qo'shish · {formatPrice(product.newPrice)}
             </button>
           </div>
         </div>

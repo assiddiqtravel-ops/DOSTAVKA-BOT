@@ -1,73 +1,97 @@
 import { getUser } from '../telegram.js';
+import ProductCard from './ProductCard.jsx';
 
-const stories = ['🔥 Aksiya', '🆕 Yangi', '⭐ Top', '🎁 Sovg\'a', '🚀 Tezkor'];
+const promos = [
+  { c: 'p1', t: 'Tez yetkazib berish', s: 'Issiqqina taomlar 30 daqiqada', e: '🛵' },
+  { c: 'p2', t: 'Eng mazali burgerlar', s: 'Yangi pishirilgan', e: '🍔' },
+  { c: 'p3', t: 'Shirin desertlar', s: 'Trayfl va chizkeyk', e: '🍰' },
+];
 
-export default function Home({ onOrder }) {
+export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
   const user = getUser();
+  const categories = [...new Set(products.map((p) => p.category).filter(Boolean))];
+  const popular = products.slice(0, 8);
+  const discounted = products.filter((p) => p.oldPrice);
 
   return (
     <div className="page">
-      <div className="header">
-        <div>
-          <div className="hello">Xush kelibsiz 👋</div>
-          <div className="username">{user.first_name}</div>
+      <div className="topbar">
+        <div className="loc">
+          <div>
+            <div className="loc-label">Yetkazib berish manzili</div>
+            <div className="loc-val">
+              <span className="pin">📍</span> Angren shahar
+            </div>
+          </div>
+          <div className="avatar">👋</div>
         </div>
-        <div className="avatar">🍔</div>
+        <div className="search" onClick={() => goCatalog('Barchasi')}>
+          <span className="ico">🔍</span>
+          <input readOnly placeholder="Taom qidirish..." />
+        </div>
       </div>
 
-      {/* Stories */}
-      <div className="stories">
-        {stories.map((s, i) => (
-          <div className="story" key={i}>
-            <div className="story-ring">
-              <div className="story-inner">{s.split(' ')[0]}</div>
-            </div>
-            <div className="story-name">{s.split(' ')[1]}</div>
+      {/* Promo bannerlar */}
+      <div className="rail">
+        {promos.map((p, i) => (
+          <div key={i} className={`promo ${p.c}`}>
+            <h3>{p.t}</h3>
+            <p>{p.s}</p>
+            <div className="emoji">{p.e}</div>
           </div>
         ))}
       </div>
 
-      {/* Hero */}
-      <div className="hero">
-        <h2>Yangi buyurtma berish</h2>
-        <p>Eng mazali taomlar 30 daqiqada eshigingizda</p>
-        <button onClick={onOrder}>Katalogni ochish →</button>
-        <div className="hero-emoji">🍔</div>
-      </div>
-
-      <div className="section-title">Nega aynan biz?</div>
-      <div style={{ display: 'flex', gap: 12 }}>
-        <div style={{ flex: 1, background: 'var(--muted)', borderRadius: 16, padding: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 30 }}>⚡️</div>
-          <div style={{ fontSize: 13, marginTop: 6 }}>Tezkor yetkazish</div>
-        </div>
-        <div style={{ flex: 1, background: 'var(--muted)', borderRadius: 16, padding: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 30 }}>🧑‍🍳</div>
-          <div style={{ fontSize: 13, marginTop: 6 }}>Yangi pishirilgan</div>
-        </div>
-        <div style={{ flex: 1, background: 'var(--muted)', borderRadius: 16, padding: 16, textAlign: 'center' }}>
-          <div style={{ fontSize: 30 }}>💯</div>
-          <div style={{ fontSize: 13, marginTop: 6 }}>Sifatli mahsulot</div>
-        </div>
-      </div>
-
-      {/* Bizning manzil */}
-      <div className="section-title">Bizning manzil</div>
-      <a
-        className="address-card"
-        href="https://maps.app.goo.gl/GwTkPyfNbjuR8kCg7"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <div style={{ fontSize: 26 }}>📍</div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 600 }}>Elif Fast Food</div>
-          <div style={{ color: 'var(--text-light)', fontSize: 13 }}>
-            Angren shahar — xaritada ochish
+      {/* Kategoriyalar */}
+      <div className="cats">
+        {categories.map((c) => (
+          <div key={c} className="chip" onClick={() => goCatalog(c)}>
+            {c}
           </div>
+        ))}
+      </div>
+
+      {loading ? (
+        <div className="skel-grid">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div className="skel" key={i} />
+          ))}
         </div>
-        <div style={{ color: 'var(--primary)', fontWeight: 700 }}>→</div>
-      </a>
+      ) : (
+        <>
+          <div className="sec">
+            <h2>🔥 Mashhur</h2>
+            <a onClick={() => goCatalog('Barchasi')}>Barchasi</a>
+          </div>
+          <div className="hrail">
+            {popular.map((p) => (
+              <ProductCard key={p.id} product={p} onOpen={onOpen} onAdd={onAdd} />
+            ))}
+          </div>
+
+          {discounted.length > 0 && (
+            <>
+              <div className="sec">
+                <h2>🏷 Chegirmalar</h2>
+              </div>
+              <div className="hrail">
+                {discounted.map((p) => (
+                  <ProductCard key={p.id} product={p} onOpen={onOpen} onAdd={onAdd} />
+                ))}
+              </div>
+            </>
+          )}
+
+          <div className="sec">
+            <h2>Butun menyu</h2>
+          </div>
+          <div className="grid">
+            {products.map((p) => (
+              <ProductCard key={p.id} product={p} onOpen={onOpen} onAdd={onAdd} />
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
