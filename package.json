@@ -1,0 +1,13 @@
+{
+  "name": "elif-fast-food",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Elif Fast Food — Telegram Mini App + Admin Panel + Bot (bitta server)",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "npm --prefix backend install && npm --prefix backend run prisma:generate && npm --prefix mini-app install && npm --prefix mini-app run build && npm --prefix admin-panel install && npm --prefix admin-panel run build",
+    "start": "npm --prefix backend start"
+  }
+}

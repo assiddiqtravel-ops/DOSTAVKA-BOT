@@ -15,20 +15,21 @@ export const handleStart = async (msg) => {
     ? {
         reply_markup: {
           inline_keyboard: [
-            [{ text: '🍕 Buyurtma berish', web_app: { url: config.miniAppUrl } }],
+            [{ text: '🍔 Buyurtma berish', web_app: { url: config.miniAppUrl } }],
           ],
         },
       }
     : {};
 
-  if (!config.miniAppUrl) {
-    return bot.sendMessage(
-      chatId,
-      text + '\n\n⚠️ Mini App hali ulanmagan (MINI_APP_URL bo\'sh).',
-    );
-  }
+  // sendMessage'ni xavfsiz yuboramiz (masalan, foydalanuvchi botni bloklasa
+  // 403 xatosi jarayonni o'chirib yubormasligi uchun)
+  const message = config.miniAppUrl
+    ? [text, options]
+    : [text + "\n\n⚠️ Mini App hali ulanmagan (MINI_APP_URL bo'sh)."];
 
-  bot.sendMessage(chatId, text, options);
+  bot
+    .sendMessage(chatId, ...message)
+    .catch((e) => console.log('sendMessage xato:', e.message));
 };
 
 // Botning pastki "menu" tugmasini Mini App'ga ulash

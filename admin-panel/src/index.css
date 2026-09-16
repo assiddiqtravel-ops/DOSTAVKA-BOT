@@ -286,3 +286,47 @@ textarea.input {
   align-items: center;
   gap: 8px;
 }
+
+/* Login */
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 20px;
+}
+.login-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 32px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+}
+.login-logo {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.login-sub {
+  color: var(--muted);
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+.login-box .input {
+  margin-bottom: 14px;
+}
+.login-box .btn {
+  width: 100%;
+}
+.login-err {
+  color: #ff3b30;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.logout-btn {
+  margin-top: 24px;
+  color: #ff3b30;
+}

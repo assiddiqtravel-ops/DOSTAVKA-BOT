@@ -58,3 +58,13 @@ export const telegramAuth = (req, res, next) => {
 
   return res.status(401).json({ error: 'Ruxsat yo\'q (Telegram tekshiruvi muvaffaqiyatsiz)' });
 };
+
+// Admin API'lari uchun parol himoyasi.
+// ADMIN_PASSWORD .env da o'rnatilsa — talab qilinadi; bo'lmasa (dev) — ochiq.
+export const adminAuth = (req, res, next) => {
+  const required = process.env.ADMIN_PASSWORD;
+  if (!required) return next();
+  const given = req.header('X-Admin-Password');
+  if (given === required) return next();
+  return res.status(401).json({ error: 'Admin paroli noto\'g\'ri' });
+};

@@ -1,10 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// Admin Panel: 5174-portda ishlaydi.
-// /api so'rovlari backend (localhost:5000) ga yo'naltiriladi.
-export default defineConfig({
+// Admin Panel.
+// - Development: 5174-portда, '/' da ishlaydi, /api → localhost:5000 proxy.
+// - Production (build): '/admin/' yo'lida, backend shu serverда beradi.
+export default defineConfig(({ command }) => ({
   plugins: [react()],
+  base: command === 'build' ? '/admin/' : '/',
   server: {
     port: 5174,
     proxy: {
@@ -14,4 +16,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

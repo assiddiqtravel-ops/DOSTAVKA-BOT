@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { adminAuth } from '../middlewares/auth.middleware.js';
 import {
   listProducts,
   addProduct,
@@ -9,6 +10,9 @@ import {
 } from '../controllers/adminController.js';
 
 const router = Router();
+
+// Barcha admin yo'llari parol bilan himoyalanadi
+router.use(adminAuth);
 
 // Mahsulotlar (CRUD)
 router.get('/products', listProducts);
