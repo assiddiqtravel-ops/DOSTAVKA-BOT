@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Mijoz
+model User {
+  id         Int      @id @default(autoincrement())
+  telegramId String   @unique
+  name       String
+  phone      String?
+  createdAt  DateTime @default(now())
+  orders     Order[]
+}
+
+// Pizza / mahsulot
+model Product {
+  id          Int      @id @default(autoincrement())
+  image       String
+  name        String
+  description String
+  oldPrice    Int?
+  newPrice    Int
+  category    String
+  createdAt   DateTime @default(now())
+}
+
+// Buyurtma
+model Order {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  items     Json // [{ id, name, price, qty }]
+  total     Int
+  location  String?
+  phone     String?
+  status    String   @default("kutilmoqda") // kutilmoqda | yetkazildi
+  createdAt DateTime @default(now())
+}

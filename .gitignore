@@ -1,0 +1,14 @@
+# Maxfiy ma'lumotlar — HECH QACHON GitHub'ga yuklanmasin!
+.env
+**/.env
+*.env
+
+# Bog'liqliklar va build
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Loglar va vaqtinchalik
+*.log
+Новый текстовый документ.txt
