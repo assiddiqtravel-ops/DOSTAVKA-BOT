@@ -7,10 +7,13 @@ export default function Catalog({
   loading,
   onOpen,
   onAdd,
+  onChangeQty,
+  cart = [],
   activeCat,
   setActiveCat,
 }) {
   const [q, setQ] = useState('');
+  const qtyOf = (id) => cart.find((i) => i.id === id)?.qty || 0;
 
   const categories = useMemo(
     () => ['Barchasi', ...new Set(products.map((p) => p.category).filter(Boolean))],
@@ -66,7 +69,14 @@ export default function Catalog({
       ) : (
         <div className="grid">
           {filtered.map((p) => (
-            <ProductCard key={p.id} product={p} onOpen={onOpen} onAdd={onAdd} />
+            <ProductCard
+              key={p.id}
+              product={p}
+              onOpen={onOpen}
+              onAdd={onAdd}
+              onChangeQty={onChangeQty}
+              qty={qtyOf(p.id)}
+            />
           ))}
         </div>
       )}

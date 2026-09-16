@@ -8,11 +8,20 @@ const promos = [
   { c: 'p3', t: 'Shirin desertlar', s: 'Trayfl va chizkeyk', icon: 'cake' },
 ];
 
-export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
+export default function Home({
+  products,
+  loading,
+  onOpen,
+  onAdd,
+  onChangeQty,
+  cart = [],
+  goCatalog,
+}) {
   const user = getUser();
   const categories = [...new Set(products.map((p) => p.category).filter(Boolean))];
   const popular = products.slice(0, 8);
   const discounted = products.filter((p) => p.oldPrice);
+  const qtyOf = (id) => cart.find((i) => i.id === id)?.qty || 0;
 
   return (
     <div className="page">
@@ -78,7 +87,14 @@ export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
           </div>
           <div className="hrail">
             {popular.map((p) => (
-              <ProductCard key={p.id} product={p} onOpen={onOpen} onAdd={onAdd} />
+              <ProductCard
+                key={p.id}
+                product={p}
+                onOpen={onOpen}
+                onAdd={onAdd}
+                onChangeQty={onChangeQty}
+                qty={qtyOf(p.id)}
+              />
             ))}
           </div>
 
@@ -92,7 +108,14 @@ export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
               </div>
               <div className="hrail">
                 {discounted.map((p) => (
-                  <ProductCard key={p.id} product={p} onOpen={onOpen} onAdd={onAdd} />
+                  <ProductCard
+                    key={p.id}
+                    product={p}
+                    onOpen={onOpen}
+                    onAdd={onAdd}
+                    onChangeQty={onChangeQty}
+                    qty={qtyOf(p.id)}
+                  />
                 ))}
               </div>
             </>
@@ -103,7 +126,14 @@ export default function Home({ products, loading, onOpen, onAdd, goCatalog }) {
           </div>
           <div className="grid">
             {products.map((p) => (
-              <ProductCard key={p.id} product={p} onOpen={onOpen} onAdd={onAdd} />
+              <ProductCard
+                key={p.id}
+                product={p}
+                onOpen={onOpen}
+                onAdd={onAdd}
+                onChangeQty={onChangeQty}
+                qty={qtyOf(p.id)}
+              />
             ))}
           </div>
         </>

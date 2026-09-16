@@ -96,6 +96,8 @@ export default function App() {
           loading={loading}
           onOpen={setActiveProduct}
           onAdd={addToCart}
+          onChangeQty={changeQty}
+          cart={cart}
           goCatalog={goCatalog}
         />
       )}
@@ -105,6 +107,8 @@ export default function App() {
           loading={loading}
           onOpen={setActiveProduct}
           onAdd={addToCart}
+          onChangeQty={changeQty}
+          cart={cart}
           activeCat={catalogCat}
           setActiveCat={setCatalogCat}
         />
