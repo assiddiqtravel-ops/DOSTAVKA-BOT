@@ -1,17 +1,17 @@
 :root {
-  /* ---- Light theme (default) ---- */
+  /* ---- KFC-uslubidagi yorug' tema (yagona, doim yorug') ---- */
   --bg: #ffffff;
-  --bg-soft: #f4f5f9;
+  --bg-soft: #f7f1ee; /* iliq krem fon */
   --card: #ffffff;
-  --text: #14141a;
-  --text-2: #8a8a95;
-  --line: #ececf1;
-  --brand: #ff4438;
-  --brand-2: #ff6a3d;
-  --brand-press: #e2261a;
-  --brand-soft: #fff0ef;
-  --green: #1fb85f;
-  --green-soft: #e7f9ef;
+  --text: #1a1210; /* iliq qora */
+  --text-2: #8c7f79;
+  --line: #f0e6e1;
+  --brand: #e4002b; /* KFC qizil */
+  --brand-2: #ff2e4d; /* gradient uchun yorqinroq qizil */
+  --brand-press: #b80022;
+  --brand-soft: #ffe8ec;
+  --green: #14a44d;
+  --green-soft: #e6f7ee;
   --amber: #e8891a;
   --amber-soft: #fff4e5;
   --star: #ffb400;
@@ -21,70 +21,22 @@
   --r-md: 14px;
   --r-sm: 10px;
 
-  --shadow: 0 12px 32px rgba(20, 20, 35, 0.12);
-  --shadow-soft: 0 4px 18px rgba(20, 20, 35, 0.07);
-  --shadow-brand: 0 10px 26px rgba(255, 68, 56, 0.32);
+  --shadow: 0 12px 32px rgba(120, 20, 30, 0.14);
+  --shadow-soft: 0 4px 18px rgba(120, 20, 30, 0.08);
+  --shadow-brand: 0 10px 26px rgba(228, 0, 43, 0.32);
 
   --grad-brand: linear-gradient(135deg, var(--brand-2), var(--brand));
   --glass: rgba(255, 255, 255, 0.72);
-  --skel-1: #e9e9ef;
-  --skel-2: #f3f3f7;
+  --skel-1: #efe4df;
+  --skel-2: #f7efeb;
   --nav-active-bg: var(--brand-soft);
-}
 
-/* ---- Dark theme: auto (system) or forced via [data-theme="dark"] ---- */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --bg: #16161c;
-    --bg-soft: #0e0e13;
-    --card: #1e1e26;
-    --text: #f3f3f7;
-    --text-2: #9a9aa6;
-    --line: #2a2a34;
-    --brand: #ff5647;
-    --brand-2: #ff7a4d;
-    --brand-press: #ff3a2b;
-    --brand-soft: #3a221f;
-    --green: #33c76e;
-    --green-soft: #16321f;
-    --amber: #f0a743;
-    --amber-soft: #35270f;
-
-    --shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
-    --shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.35);
-    --shadow-brand: 0 10px 26px rgba(255, 68, 56, 0.28);
-
-    --glass: rgba(22, 22, 28, 0.72);
-    --skel-1: #24242e;
-    --skel-2: #2d2d38;
-    --nav-active-bg: rgba(255, 86, 71, 0.16);
-  }
-}
-
-:root[data-theme='dark'] {
-  --bg: #16161c;
-  --bg-soft: #0e0e13;
-  --card: #1e1e26;
-  --text: #f3f3f7;
-  --text-2: #9a9aa6;
-  --line: #2a2a34;
-  --brand: #ff5647;
-  --brand-2: #ff7a4d;
-  --brand-press: #ff3a2b;
-  --brand-soft: #3a221f;
-  --green: #33c76e;
-  --green-soft: #16321f;
-  --amber: #f0a743;
-  --amber-soft: #35270f;
-
-  --shadow: 0 14px 36px rgba(0, 0, 0, 0.5);
-  --shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.35);
-  --shadow-brand: 0 10px 26px rgba(255, 68, 56, 0.28);
-
-  --glass: rgba(22, 22, 28, 0.72);
-  --skel-1: #24242e;
-  --skel-2: #2d2d38;
-  --nav-active-bg: rgba(255, 86, 71, 0.16);
+  /* KFC "chelak" chiziqlari (qizil-oq diagonal) */
+  --kfc-stripes: repeating-linear-gradient(
+    118deg,
+    rgba(255, 255, 255, 0.16) 0 16px,
+    transparent 16px 38px
+  );
 }
 
 * {
@@ -169,8 +121,7 @@ a {
   width: 184px;
   height: 184px;
   border-radius: 50%;
-  background: radial-gradient(120% 120% at 30% 20%, var(--brand-soft), transparent),
-    var(--grad-brand);
+  background: var(--kfc-stripes), var(--grad-brand);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -232,7 +183,7 @@ a {
 }
 .btn:active {
   transform: scale(0.98);
-  box-shadow: 0 4px 14px rgba(255, 68, 56, 0.28);
+  box-shadow: 0 4px 14px rgba(228, 0, 43, 0.28);
 }
 .btn:disabled {
   opacity: 0.55;
@@ -382,13 +333,16 @@ a {
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.15));
 }
 .promo.p1 {
-  background: linear-gradient(135deg, #ff5a3c, #ff2d55);
+  background: var(--kfc-stripes),
+    linear-gradient(135deg, #ff2e4d, #e4002b);
 }
 .promo.p2 {
-  background: linear-gradient(135deg, #7b61ff, #b16cff);
+  background: var(--kfc-stripes),
+    linear-gradient(135deg, #ff7a2f, #ff4d17);
 }
 .promo.p3 {
-  background: linear-gradient(135deg, #ff9500, #ffb800);
+  background: var(--kfc-stripes),
+    linear-gradient(135deg, #ffb020, #ff8a00);
 }
 
 /* ---------- Categories ---------- */
