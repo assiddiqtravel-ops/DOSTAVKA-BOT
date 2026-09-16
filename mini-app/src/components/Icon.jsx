@@ -144,6 +144,7 @@ const PATHS = {
       <path d="M5 12h14" />
     </>
   ),
+  minus: <path d="M5 12h14" />,
 };
 
 // To'ldirilgan (solid) variant — Yandex Dostavka uslubidagi qalin, yumaloq ikonkalar.
