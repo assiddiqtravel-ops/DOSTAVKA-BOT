@@ -1,4 +1,5 @@
 import { formatPrice, discountPct } from '../utils.js';
+import Icon from './Icon.jsx';
 
 export default function ProductCard({ product, onOpen, onAdd }) {
   const off = discountPct(product.oldPrice, product.newPrice);
@@ -19,8 +20,9 @@ export default function ProductCard({ product, onOpen, onAdd }) {
             e.stopPropagation();
             onAdd(product);
           }}
+          aria-label="Savatchaga qo'shish"
         >
-          +
+          <Icon name="plus" size={22} strokeWidth={2.5} />
         </button>
       </div>
       <div className="card-body">

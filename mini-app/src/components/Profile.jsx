@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getMyOrders } from '../api.js';
 import { getUser } from '../telegram.js';
 import { formatPrice } from '../utils.js';
+import Icon from './Icon.jsx';
 
 export default function Profile({ onReorder }) {
   const user = getUser();
@@ -27,7 +28,9 @@ export default function Profile({ onReorder }) {
   return (
     <div className="page">
       <div className="profile-head">
-        <div className="profile-avatar">👤</div>
+        <div className="profile-avatar">
+          <Icon name="user" size={44} />
+        </div>
         <div className="profile-name">{user.first_name}</div>
         {user.username && (
           <div style={{ color: 'var(--text-2)', fontSize: 14, marginTop: 2 }}>
@@ -37,13 +40,18 @@ export default function Profile({ onReorder }) {
       </div>
 
       <div className="pad">
-        <div className="sec-label">📜 Mening buyurtmalarim</div>
+        <div className="sec-label">
+          <Icon name="receipt" size={18} style={{ color: 'var(--brand)' }} />
+          Mening buyurtmalarim
+        </div>
 
         {loading ? (
           <div className="loader">Yuklanmoqda...</div>
         ) : orders.length === 0 ? (
           <div className="empty">
-            <div className="empty-emoji">📭</div>
+            <div className="empty-emoji">
+              <Icon name="inbox" size={60} strokeWidth={1.6} />
+            </div>
             Hozircha buyurtmalar yo'q
           </div>
         ) : (
@@ -81,7 +89,7 @@ export default function Profile({ onReorder }) {
                   style={{ marginTop: 12, padding: 11, fontSize: 14 }}
                   onClick={() => onReorder(items)}
                 >
-                  🔁 Yana shundan buyurtma qilish
+                  <Icon name="repeat" size={17} /> Yana shundan buyurtma qilish
                 </button>
               </div>
             );

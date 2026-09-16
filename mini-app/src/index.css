@@ -785,6 +785,10 @@ a {
   transition: 0.15s;
   box-shadow: var(--shadow-soft);
   border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 .geo-btn:active {
   transform: scale(0.98);
@@ -992,4 +996,80 @@ a {
   justify-content: center;
   padding: 0 4px;
   border: 2px solid var(--bg);
+}
+
+/* ---------- Icons ---------- */
+svg {
+  display: block;
+}
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+/* Ikonka + matn qatorlari */
+.sec h2,
+.sec-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sec h2 .sec-ico {
+  flex-shrink: 0;
+}
+.loc-val .pin,
+.search .ico {
+  display: inline-flex;
+  align-items: center;
+}
+.geo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.empty-emoji {
+  display: flex;
+  justify-content: center;
+  color: var(--text-2);
+}
+/* Brend doiralaridagi oq ikonkalar */
+.avatar,
+.profile-avatar,
+.ob-art {
+  color: #fff;
+}
+.promo .emoji {
+  color: #fff;
+}
+/* Upsell ikonka nishoni */
+.upsell-ico {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ---------- Icon input field ---------- */
+.field {
+  position: relative;
+  margin-bottom: 12px;
+}
+.field .field-ico {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-2);
+  display: flex;
+  pointer-events: none;
+}
+.field .input {
+  margin-bottom: 0;
+  padding-left: 44px;
 }
